@@ -2,7 +2,7 @@
 
 Official GitHub Pages landing page for **STK Camera**, a mobile app that reads Soil Test Kit (STK) color strips using CIEDE2000 color matching and Claude Vision AI.
 
-🌐 **Live site:** https://phpthinky.github.io/stkcamera *(update once deployed)*
+🌐 **Live site:** https://phpthinky.github.io/stk-camera-mobile*(update once deployed)*
 
 ---
 
