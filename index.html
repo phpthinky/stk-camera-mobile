@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STK Camera — Soil Test Kit Analyzer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:    #2d7a3a;
+      --green-mid:#3fa34d;
+      --green-lt: #e6f5e9;
+      --soil:     #8b5e3c;
+      --soil-lt:  #fdf3ec;
+      --ink:      #1a1a1a;
+      --muted:    #6b7280;
+      --border:   #e5e7eb;
+      --white:    #ffffff;
+      --cream:    #fafaf8;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 2rem;
+      background: rgba(250,250,248,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800; font-size: 1.1rem;
+      color: var(--green);
+      letter-spacing: -0.02em;
+    }
+    .nav-logo span { color: var(--soil); }
+    .nav-cta {
+      background: var(--green);
+      color: white;
+      padding: 0.5rem 1.2rem;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .nav-cta:hover { background: var(--green-mid); transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 3rem;
+      padding: 8rem 4rem 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: var(--green-lt);
+      color: var(--green);
+      font-size: 0.75rem; font-weight: 600;
+      padding: 0.35rem 0.85rem;
+      border-radius: 100px;
+      margin-bottom: 1.25rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: var(--green);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.4); }
+    }
+
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--green);
+    }
+
+    .hero-sub {
+      margin-top: 1.25rem;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: var(--muted);
+      max-width: 480px;
+      font-weight: 300;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-actions {
+      display: flex; gap: 1rem; align-items: center;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: var(--green);
+      color: white;
+      padding: 0.85rem 1.75rem;
+      border-radius: 100px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+      box-shadow: 0 4px 20px rgba(45,122,58,0.25);
+    }
+    .btn-primary:hover {
+      background: var(--green-mid);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(45,122,58,0.35);
+    }
+    .btn-primary svg { width: 20px; height: 20px; }
+
+    .btn-secondary {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 400;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .btn-secondary:hover { color: var(--ink); }
+
+    .hero-stats {
+      display: flex; gap: 2rem; margin-top: 2.5rem;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+    .stat-item { }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.6rem; font-weight: 800;
+      color: var(--green);
+    }
+    .stat-label {
+      font-size: 0.78rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.05em;
+      margin-top: 0.1rem;
+    }
+
+    /* ── PHONE MOCKUP ── */
+    .hero-visual {
+      display: flex; justify-content: center; align-items: center;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .phone-wrap {
+      position: relative;
+      width: 280px;
+    }
+    .phone-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -40px;
+      background: radial-gradient(ellipse at center, rgba(45,122,58,0.12) 0%, transparent 70%);
+      border-radius: 50%;
+      z-index: 0;
+    }
+
+    .phone {
+      position: relative; z-index: 1;
+      width: 280px; height: 560px;
+      background: white;
+      border-radius: 40px;
+      box-shadow:
+        0 0 0 10px #1a1a1a,
+        0 40px 80px rgba(0,0,0,0.18),
+        0 10px 30px rgba(0,0,0,0.1);
+      overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+
+    .phone-notch {
+      width: 80px; height: 26px;
+      background: #1a1a1a;
+      border-radius: 0 0 16px 16px;
+      margin: 0 auto;
+      z-index: 10;
+    }
+
+    .phone-screen {
+      flex: 1;
+      background: linear-gradient(160deg, #f0faf2 0%, #fff 60%);
+      display: flex; flex-direction: column;
+      padding: 1rem;
+      gap: 0.6rem;
+    }
+
+    .phone-header {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .phone-app-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.85rem; font-weight: 700;
+      color: var(--green);
+    }
+    .phone-credits {
+      background: var(--green-lt);
+      color: var(--green);
+      font-size: 0.65rem; font-weight: 600;
+      padding: 0.2rem 0.5rem;
+      border-radius: 100px;
+    }
+
+    .phone-capture {
+      flex: 1;
+      background: #1a1a1a;
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .phone-capture-inner {
+      width: 100px; height: 100px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .phone-capture-dot {
+      width: 12px; height: 12px;
+      background: var(--green-mid);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    /* soil color strip */
+    .phone-strip {
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      gap: 4px; height: 24px;
+    }
+    .phone-strip div { border-radius: 4px; }
+
+    .phone-result {
+      background: white;
+      border-radius: 10px;
+      padding: 0.6rem 0.75rem;
+      display: flex; justify-content: space-between; align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .phone-result-label { font-size: 0.65rem; color: var(--muted); }
+    .phone-result-val {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem; font-weight: 700;
+      color: var(--soil);
+    }
+    .phone-result-badge {
+      background: #fff3e0;
+      color: #e65100;
+      font-size: 0.55rem; font-weight: 600;
+      padding: 0.15rem 0.4rem;
+      border-radius: 100px;
+    }
+
+    /* floating chips */
+    .float-chip {
+      position: absolute;
+      background: white;
+      border-radius: 12px;
+      padding: 0.5rem 0.75rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      font-size: 0.75rem;
+      font-weight: 500;
+      display: flex; align-items: center; gap: 0.4rem;
+      z-index: 2;
+      animation: float 4s ease-in-out infinite;
+    }
+    .float-chip.chip-1 { top: 120px; right: -60px; animation-delay: 0s; }
+    .float-chip.chip-2 { bottom: 180px; left: -70px; animation-delay: 2s; }
+    .float-chip .chip-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* ── SECTION BASE ── */
+    section { padding: 5rem 2rem; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-tag {
+      font-size: 0.75rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--green);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+    .section-desc {
+      margin-top: 0.75rem;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.7;
+      font-weight: 300;
+      max-width: 520px;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how { background: white; }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    .step {
+      position: relative;
+      padding: 1.75rem;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--cream);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .step:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.06);
+    }
+    .step-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 3rem; font-weight: 800;
+      color: var(--green-lt);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .step-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem; font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+    .step-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── FEATURES ── */
+    .features { background: var(--cream); }
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .feat-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+    .feat-card:hover {
+      border-color: var(--green-mid);
+      box-shadow: 0 8px 24px rgba(45,122,58,0.08);
+      transform: translateY(-2px);
+    }
+    .feat-icon {
+      width: 48px; height: 48px;
+      background: var(--green-lt);
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+    }
+    .feat-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.05rem; font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+    .feat-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.65; }
+
+    /* ── PRICING ── */
+    .pricing { background: white; }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+      max-width: 700px;
+    }
+    .price-card {
+      border-radius: 24px;
+      padding: 2rem;
+      border: 2px solid var(--border);
+      transition: all 0.2s;
+    }
+    .price-card.featured {
+      border-color: var(--green);
+      background: linear-gradient(160deg, var(--green-lt), white);
+      position: relative;
+      overflow: hidden;
+    }
+    .price-card.featured::before {
+      content: 'RECOMMENDED';
+      position: absolute; top: 1rem; right: 1rem;
+      background: var(--green);
+      color: white;
+      font-size: 0.6rem; font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 0.25rem 0.6rem;
+      border-radius: 100px;
+    }
+    .price-plan {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.85rem; font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+    .price-amount {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.5rem; font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      line-height: 1;
+    }
+    .price-amount sup { font-size: 1rem; vertical-align: super; }
+    .price-amount .free-label { color: var(--green); }
+    .price-period { font-size: 0.8rem; color: var(--muted); margin-top: 0.3rem; }
+    .price-divider { border: none; border-top: 1px solid var(--border); margin: 1.25rem 0; }
+    .price-features { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .price-features li {
+      font-size: 0.875rem; color: var(--muted);
+      display: flex; align-items: flex-start; gap: 0.5rem;
+    }
+    .price-features li::before {
+      content: '✓';
+      color: var(--green);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .price-btn {
+      display: block; text-align: center;
+      margin-top: 1.5rem;
+      padding: 0.75rem;
+      border-radius: 100px;
+      font-size: 0.875rem; font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .price-btn.outline {
+      border: 1.5px solid var(--border);
+      color: var(--ink);
+    }
+    .price-btn.outline:hover { border-color: var(--green); color: var(--green); }
+    .price-btn.solid {
+      background: var(--green); color: white;
+      box-shadow: 0 4px 16px rgba(45,122,58,0.2);
+    }
+    .price-btn.solid:hover { background: var(--green-mid); transform: translateY(-1px); }
+
+    /* ── CTA BAND ── */
+    .cta-band {
+      background: var(--green);
+      padding: 5rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-band::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    .cta-band h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.03em;
+      position: relative;
+    }
+    .cta-band p {
+      color: rgba(255,255,255,0.75);
+      margin-top: 0.75rem;
+      font-size: 1rem;
+      font-weight: 300;
+      position: relative;
+    }
+    .cta-band .btn-white {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: white;
+      color: var(--green);
+      padding: 0.9rem 2rem;
+      border-radius: 100px;
+      font-size: 0.95rem; font-weight: 600;
+      text-decoration: none;
+      margin-top: 2rem;
+      transition: all 0.2s;
+      position: relative;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    .cta-band .btn-white:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--ink);
+      color: rgba(255,255,255,0.5);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      font-size: 0.85rem;
+      line-height: 1.8;
+    }
+    footer a { color: rgba(255,255,255,0.7); text-decoration: none; }
+    footer a:hover { color: white; }
+    .footer-brand {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem; font-weight: 700;
+      color: white;
+      margin-bottom: 0.5rem;
+    }
+    .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 7rem 1.5rem 3rem;
+        text-align: center;
+      }
+      .hero-sub { max-width: 100%; }
+      .hero-actions { justify-content: center; }
+      .hero-stats { justify-content: center; }
+      .hero-visual { order: -1; }
+      .phone-wrap { transform: scale(0.85); }
+      .float-chip { display: none; }
+      nav { padding: 1rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">STK<span>Camera</span></div>
+  <a href="#download" class="nav-cta">Get the App</a>
+</nav>
+
+<!-- HERO -->
+<section style="padding:0;">
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">Now on Google Play</div>
+      <h1>Read your soil.<br><em>Know what to grow.</em></h1>
+      <p class="hero-sub">
+        Point your camera at any soil test kit strip. STK Camera instantly reads the colors, analyzes pH, Nitrogen, Phosphorus, and Potassium — and tells you exactly what your soil needs.
+      </p>
+      <div class="hero-actions">
+        <a href="#download" class="btn-primary" id="download">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76a2.5 2.5 0 002.6-.18l13.4-7.76-3.08-3.08-12.92 11.02zm-1.68-21.5C1.2 2.6 1 3.04 1 3.6v16.8c0 .56.2 1 .5 1.34l.08.08 9.42-9.42v-.2L1.58 2.18l-.08.08zM20.34 10.62l-2.64-1.54-3.36 3.36 3.36 3.36 2.66-1.54c.76-.44.76-1.14 0-1.58l-.02-.06zM5.78.42L19.18 8.2l-3.08 3.08L3.18.28a2.5 2.5 0 012.6.14z"/></svg>
+          Download Free
+        </a>
+        <a href="#features" class="btn-secondary">See features →</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">4</div>
+          <div class="stat-label">Nutrients Analyzed</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">10</div>
+          <div class="stat-label">Free Credits</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">100%</div>
+          <div class="stat-label">Offline Ready</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phone Mockup -->
+    <div class="hero-visual">
+      <div class="phone-wrap">
+        <!-- Floating chips -->
+        <div class="float-chip chip-1">
+          <span class="chip-dot" style="background:#e65100;"></span>
+          pH 4.2 — Acidic
+        </div>
+        <div class="float-chip chip-2">
+          <span class="chip-dot" style="background:var(--green);"></span>
+          N: Medium
+        </div>
+
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <div class="phone-screen">
+            <div class="phone-header">
+              <div class="phone-app-name">STK Camera</div>
+              <div class="phone-credits">10 Credits</div>
+            </div>
+
+            <div class="phone-capture">
+              <div class="phone-capture-inner">
+                <div class="phone-capture-dot"></div>
+              </div>
+            </div>
+
+            <!-- color strip -->
+            <div class="phone-strip">
+              <div style="background:#c8a96e;"></div>
+              <div style="background:#b5975c;"></div>
+              <div style="background:#a07848;"></div>
+              <div style="background:#8b6040;"></div>
+              <div style="background:#76503a;"></div>
+            </div>
+
+            <!-- result card -->
+            <div class="phone-result">
+              <div>
+                <div class="phone-result-label">pH Level</div>
+                <div class="phone-result-val">4.2</div>
+              </div>
+              <div class="phone-result-badge">Very Acidic</div>
+            </div>
+            <div class="phone-result">
+              <div>
+                <div class="phone-result-label">Nitrogen</div>
+                <div class="phone-result-val">Medium</div>
+              </div>
+              <div style="background:#e8f5e9;color:#2d7a3a;font-size:0.55rem;font-weight:600;padding:0.15rem 0.4rem;border-radius:100px;">OK</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how">
+  <div class="section-inner">
+    <div class="section-tag">How it works</div>
+    <div class="section-title">Three steps to soil clarity</div>
+    <p class="section-desc">No lab. No waiting. Just your phone and a standard soil test kit strip.</p>
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-title">Run your soil test</div>
+        <div class="step-desc">Use any standard Soil Test Kit (STK). Collect your soil sample and follow the kit's procedure to develop the color strips.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-title">Capture the strip</div>
+        <div class="step-desc">Open STK Camera, point at the color result pad, and capture. Our CIEDE2000 engine reads exact color values in real-time.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-title">Get your analysis</div>
+        <div class="step-desc">Instantly see your pH, Nitrogen, Phosphorus, and Potassium levels — with AI-assisted interpretation and fertilizer guidance.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-title">Save your report</div>
+        <div class="step-desc">Export a clean soil report to your gallery. Perfect for submitting to technicians, instructors, or keeping farm records.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="section-inner">
+    <div class="section-tag">Features</div>
+    <div class="section-title">Built for the field,<br>not the office</div>
+    <p class="section-desc">Designed for agriculture students, farm technicians, and researchers who need answers outdoors — fast.</p>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-icon">🎨</div>
+        <div class="feat-title">CIEDE2000 Color Matching</div>
+        <div class="feat-desc">Industry-standard color difference algorithm for precise, consistent reading of your test kit's color strip — even in varying lighting.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🤖</div>
+        <div class="feat-title">AI-Assisted Analysis</div>
+        <div class="feat-desc">Claude Vision AI handles ambiguous or difficult captures, providing a second layer of interpretation when color readings need context.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">📊</div>
+        <div class="feat-title">NPK + pH Results</div>
+        <div class="feat-desc">Full macro-nutrient profile: pH, Nitrogen, Phosphorus, and Potassium — the four core indicators for soil health and crop readiness.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🌍</div>
+        <div class="feat-title">Global Compatibility</div>
+        <div class="feat-desc">Works with any standard soil test kit worldwide. No geographic restriction on the free version — usable in any country.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">📋</div>
+        <div class="feat-title">Fertilizer Calculator</div>
+        <div class="feat-desc">Input your crop, area, and location. Get structured fertilizer recommendations — type, amount per hectare, and application schedule.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">📶</div>
+        <div class="feat-title">Offline-First Design</div>
+        <div class="feat-desc">Core color reading and analysis works without internet. Built for remote farms, research fields, and areas with poor signal.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="section-inner">
+    <div class="section-tag">Credits & Pricing</div>
+    <div class="section-title">Start free. Scale when ready.</div>
+    <p class="section-desc">Every install comes with 10 free analysis credits. Top up anytime with token-based credits — no subscription required.</p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-plan">Free</div>
+        <div class="price-amount"><span class="free-label">10</span></div>
+        <div class="price-period">credits included on install</div>
+        <hr class="price-divider"/>
+        <ul class="price-features">
+          <li>CIEDE2000 color matching</li>
+          <li>pH, N, P, K analysis</li>
+          <li>Fertilizer calculator (unlimited)</li>
+          <li>Save reports to gallery</li>
+          <li>Works globally</li>
+        </ul>
+        <a href="#download" class="price-btn outline">Download Free</a>
+      </div>
+      <div class="price-card featured">
+        <div class="price-plan">Top-up Credits</div>
+        <div class="price-amount"><sup>₱</sup>—</div>
+        <div class="price-period">token-based, no subscription</div>
+        <hr class="price-divider"/>
+        <ul class="price-features">
+          <li>Everything in Free</li>
+          <li>Purchase via GCash</li>
+          <li>Redeem with unique token</li>
+          <li>Credits added instantly</li>
+          <li>No expiry on unused credits</li>
+        </ul>
+        <a href="#download" class="price-btn solid">Get Credits</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section class="cta-band">
+  <h2>Your soil has answers.<br>Now you can read them.</h2>
+  <p>Free to download. No registration required. Works offline.</p>
+  <a href="https://play.google.com/store" class="btn-white" target="_blank">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76a2.5 2.5 0 002.6-.18l13.4-7.76-3.08-3.08-12.92 11.02zm-1.68-21.5C1.2 2.6 1 3.04 1 3.6v16.8c0 .56.2 1 .5 1.34l.08.08 9.42-9.42v-.2L1.58 2.18l-.08.08zM20.34 10.62l-2.64-1.54-3.36 3.36 3.36 3.36 2.66-1.54c.76-.44.76-1.14 0-1.58l-.02-.06zM5.78.42L19.18 8.2l-3.08 3.08L3.18.28a2.5 2.5 0 012.6.14z"/></svg>
+    Download on Google Play
+  </a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">STK Camera</div>
+  <div>Soil Test Kit Analyzer — Built by <a href="https://github.com/phpthinky" target="_blank">phpthinky</a></div>
+  <div>Part of the <strong style="color:rgba(255,255,255,0.7)">TAM</strong> (Tech-Agri for Mindoro) ecosystem · Sablayan, Occidental Mindoro 🇵🇭</div>
+  <div class="footer-links">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms of Use</a>
+    <a href="https://github.com/phpthinky" target="_blank">GitHub</a>
+    <a href="mailto:hello@phpthinky.dev">Contact</a>
+  </div>
+  <div style="margin-top:1rem;font-size:0.75rem;">© 2026 phpthinky. All rights reserved.</div>
+</footer>
+
+</body>
+</html>
