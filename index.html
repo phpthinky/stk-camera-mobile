@@ -665,6 +665,98 @@
   </div>
 </section>
 
+<!-- SCREENSHOTS -->
+<section id="screenshots" style="background:var(--green-lt);overflow:hidden;">
+  <div class="section-inner" style="text-align:center;">
+    <div class="section-tag" style="justify-content:center;display:flex;">App Preview</div>
+    <div class="section-title">See it in action</div>
+    <p class="section-desc" style="margin:0.75rem auto 3rem;">Clean, minimal interface designed for fast field use — no clutter, no confusion.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2.5rem;align-items:end;max-width:800px;margin:0 auto;">
+
+      <!-- Screen 1: Welcome -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:1rem;">
+        <div style="
+          width:200px;height:400px;
+          background:#1a1a1a;
+          border-radius:32px;
+          box-shadow:0 0 0 8px #1a1a1a, 0 32px 64px rgba(0,0,0,0.2);
+          overflow:hidden;
+          position:relative;
+        ">
+          <!-- replace src with: img/stkwelcome.jpg -->
+          <img src="img/screen-welcome.png"
+               alt="Welcome Screen"
+               style="width:100%;height:100%;object-fit:cover;"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+          />
+          <div style="display:none;width:100%;height:100%;background:linear-gradient(160deg,#e6f5e9,#fff);align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;">
+            <div style="font-size:2rem;">🌱</div>
+            <div style="font-size:0.7rem;color:var(--muted);font-family:'Syne',sans-serif;font-weight:700;">WELCOME</div>
+          </div>
+        </div>
+        <div style="font-family:'Syne',sans-serif;font-size:0.8rem;font-weight:700;color:var(--ink);">Welcome</div>
+        <div style="font-size:0.75rem;color:var(--muted);">App intro &amp; get started</div>
+      </div>
+
+      <!-- Screen 2: Test / Capture — center, taller -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:1rem;">
+        <div style="
+          width:200px;height:430px;
+          background:#1a1a1a;
+          border-radius:32px;
+          box-shadow:0 0 0 8px #1a1a1a, 0 40px 80px rgba(45,122,58,0.25);
+          overflow:hidden;
+          position:relative;
+        ">
+          <!-- replace src with: img/screen-test.png -->
+          <img src="img/stktestt.png"
+               alt="Test Screen"
+               style="width:100%;height:100%;object-fit:cover;"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+          />
+          <div style="display:none;width:100%;height:100%;background:#111;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;">
+            <div style="font-size:2rem;">📷</div>
+            <div style="font-size:0.7rem;color:rgba(255,255,255,0.6);font-family:'Syne',sans-serif;font-weight:700;">CAPTURE</div>
+          </div>
+        </div>
+        <div style="font-family:'Syne',sans-serif;font-size:0.8rem;font-weight:700;color:var(--ink);">Test Strip</div>
+        <div style="font-size:0.75rem;color:var(--muted);">Camera capture &amp; color read</div>
+      </div>
+
+      <!-- Screen 3: Results -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:1rem;">
+        <div style="
+          width:200px;height:400px;
+          background:#1a1a1a;
+          border-radius:32px;
+          box-shadow:0 0 0 8px #1a1a1a, 0 32px 64px rgba(0,0,0,0.2);
+          overflow:hidden;
+          position:relative;
+        ">
+          <!-- replace src with: img/screen-result.png -->
+          <img src="img/stkresult.jpg"
+               alt="Result Screen"
+               style="width:100%;height:100%;object-fit:cover;"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+          />
+          <div style="display:none;width:100%;height:100%;background:linear-gradient(160deg,#f0faf2,#fff);align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;">
+            <div style="font-size:2rem;">📊</div>
+            <div style="font-size:0.7rem;color:var(--muted);font-family:'Syne',sans-serif;font-weight:700;">RESULTS</div>
+          </div>
+        </div>
+        <div style="font-family:'Syne',sans-serif;font-size:0.8rem;font-weight:700;color:var(--ink);">Results</div>
+        <div style="font-size:0.75rem;color:var(--muted);">pH &amp; NPK analysis output</div>
+      </div>
+
+    </div>
+
+    <p style="margin-top:2.5rem;font-size:0.78rem;color:var(--muted);">
+      Available on Android · <a href="#download" style="color:var(--green);font-weight:600;">Download free on Google Play →</a>
+    </p>
+  </div>
+</section>
+
 <!-- HOW IT WORKS -->
 <section class="how">
   <div class="section-inner">
@@ -869,11 +961,11 @@ Field Area: 1 hectare
 <footer>
   <div class="footer-brand">STK Camera</div>
   <div>Soil Test Kit Analyzer — Built by <a href="https://github.com/phpthinky" target="_blank">phpthinky</a></div>
-  <div>Part of the <strong style="color:rgba(255,255,255,0.7)">TAM</strong> (Tech-Agri for Mindoro) ecosystem · Sablayan, Occidental Mindoro 🇵🇭</div>
   <div class="footer-links">
     <a href="#terms">Terms &amp; Conditions</a>
     <a href="#privacy">Privacy Policy</a>
     <a href="https://github.com/phpthinky" target="_blank">GitHub</a>
     <a href="/cdn-cgi/l/email-protection#b5ddd0d9d9daf5c5ddc5c1dddcdbdecc9bd1d0c3">Contact</a>
   </div>
-  <div style="margin-top:1rem;font-size:0.75rem;">© 2026 phpthinky. All rights r
+  <div style="margin-top:1rem;font-size:0.75rem;">© 2026 phpthinky. All rights reserved. </footer>
+  </body></html> 
