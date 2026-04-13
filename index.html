@@ -606,7 +606,7 @@
       <div class="hero-badge">Now on Google Play</div>
       <h1>Read your soil.<br><em>Know what to grow.</em></h1>
       <p class="hero-sub">
-        A mobile field assistant that brings laboratory precision to soil testing — entirely offline. Reads pH and NPK color strips more accurately than the human eye, then generates a structured technical summary ready for any AI model.
+        A mobile field assistant for colorimetric soil testing using standard STK reagents. Implements the BSWM two-step pH protocol (CPR → BCG/BTB) and measures NPK nutrients — entirely offline, with AI-ready structured output.
       </p>
       <div class="hero-actions">
         <a href="https://play.google.com/store/apps/details?id=com.phpthinky.stkcamera" class="btn-primary" id="download">
@@ -788,23 +788,23 @@
     <div class="steps-grid">
       <div class="step">
         <div class="step-num">01</div>
-        <div class="step-title">Run your soil test</div>
-        <div class="step-desc">Use any standard Soil Test Kit (STK). Collect your soil sample and follow the kit's procedure to develop the color strips.</div>
+        <div class="step-title">Prepare your sample</div>
+        <div class="step-desc">Collect a soil sample and prepare your STK reagents. The app walks you through each protocol step — CPR for Step 1 pH, then BCG or BTB for Step 2 — following BSWM standards.</div>
       </div>
       <div class="step">
         <div class="step-num">02</div>
-        <div class="step-title">Capture the strip</div>
-        <div class="step-desc">Point your camera at the color result pad. The CIEDE2000 engine extracts an objective color reading — more consistent than the human eye.</div>
+        <div class="step-title">Two-step pH test</div>
+        <div class="step-desc">Capture the CPR indicator. The app auto-decides the next indicator: BCG (acidic soils, pH ≤ 5.4) or BTB (alkaline soils, pH ≥ 5.8). A built-in RETEST guard flags inconclusive readings (5.4–5.8 range).</div>
       </div>
       <div class="step">
         <div class="step-num">03</div>
-        <div class="step-title">Get your chemical data</div>
-        <div class="step-desc">Instantly see your pH, Nitrogen, Phosphorus, and Potassium levels — extracted directly from the strip with no guesswork.</div>
+        <div class="step-title">Capture NPK readings</div>
+        <div class="step-desc">Photograph each NPK reagent: Diphenylamine (N), Barton's Reagent (P), and Sodium Tetraphenylboron (K). One capture per nutrient. CIEDE2000 matches the color to a calibrated ppm value.</div>
       </div>
       <div class="step">
         <div class="step-num">04</div>
-        <div class="step-title">Copy & ask any AI</div>
-        <div class="step-desc">The app generates a structured technical summary. Copy it to clipboard and paste into ChatGPT, Claude, or any AI for immediate fertilizer and crop recommendations.</div>
+        <div class="step-title">Results & AI recommendations</div>
+        <div class="step-desc">Review your fertility score, NPK status, and pH classification with color swatches. Copy the structured AI prompt to clipboard and paste into Claude or ChatGPT for fertilizer and crop guidance.</div>
       </div>
     </div>
   </div>
@@ -818,19 +818,31 @@
     <p class="section-desc">Designed for agriculture students, farm technicians, and researchers who need accurate chemical data — not guesswork.</p>
     <div class="feat-grid">
       <div class="feat-card">
+        <div class="feat-icon">🧪</div>
+        <div class="feat-title">Two-Step pH Protocol (BSWM)</div>
+        <div class="feat-desc">
+          Follows Bureau of Soils &amp; Water Management standards. Step 1 uses CPR indicator; the app auto-routes Step 2 to BCG (pH ≤ 5.4, acidic) or BTB (pH ≥ 5.8, alkaline). A built-in RETEST guard flags inconclusive readings in the 5.4–5.8 transition range.
+        </div>
+      </div>
+      <div class="feat-card">
         <div class="feat-icon">🎨</div>
         <div class="feat-title">CIEDE2000 Color Matching</div>
-        <div class="feat-desc">Industry-standard color difference algorithm that reads pH and NPK strips with greater consistency than the human eye — even in varying field lighting.</div>
+        <div class="feat-desc">Industry-standard perceptual color difference algorithm. Applied to both pH indicator colors (CPR / BCG / BTB) and NPK reagents (Diphenylamine, Barton's, Sodium Tetraphenylboron) for objective, lighting-tolerant readings.</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">📷</div>
+        <div class="feat-title">Camera Focus &amp; Gallery Picker</div>
+        <div class="feat-desc">A circular guide overlays the viewfinder so you can align the color strip precisely before capturing. If the camera fails to open, the gallery picker launches automatically — no test session is lost.</div>
       </div>
       <div class="feat-card">
         <div class="feat-icon">💬</div>
         <div class="feat-title">Structured Prompt Generator</div>
-        <div class="feat-desc">Converts your soil chemical data into a clean, technical summary. Copy to clipboard and paste into any external AI model for fertilizer and crop recommendations.</div>
-        <pre style="margin-top:1rem;background:var(--cream);border:1px solid var(--border);border-radius:10px;padding:0.85rem;font-size:0.65rem;line-height:1.7;color:var(--muted);overflow-x:auto;white-space:pre-wrap;font-family:'DM Sans',monospace;">### SOIL ANALYSIS REPORT
+        <div class="feat-desc">Converts your soil data into a clean technical summary. Copy to clipboard and paste into Claude, ChatGPT, or Gemini for fertilizer recommendations, crop suitability, and pH amendment guidance.</div>
+        <pre style="margin-top:1rem;background:var(--cream);border:1px solid var(--border);border-radius:10px;padding:0.85rem;font-size:0.65rem;line-height:1.7;color:var(--muted);overflow-x:auto;white-space:pre-wrap;font-family:'DM Sans',monospace;">### SOIL ANALYSIS REPORT (STK)
 Target Crop: PATOLA
 Field Area: 1 hectare
 ------------------------------------------
-### TEST STRIP RESULTS (STK)
+### TEST STRIP RESULTS
 - Soil pH: 4.2 (Extremely Acidic)
 - Nitrogen (N): MEDIUM
 - Phosphorus (P): LOW
@@ -844,28 +856,23 @@ Field Area: 1 hectare
       </div>
       <div class="feat-card">
         <div class="feat-icon">📊</div>
-        <div class="feat-title">NPK + pH Results</div>
-        <div class="feat-desc">Full macro-nutrient profile: pH, Nitrogen, Phosphorus, and Potassium — the four core indicators for soil health and crop readiness.</div>
-      </div>
-      <div class="feat-card">
-        <div class="feat-icon">🌍</div>
-        <div class="feat-title">Global Compatibility</div>
-        <div class="feat-desc">Works with any standard soil test kit worldwide. No geographic restriction on the free version — usable in any country.</div>
+        <div class="feat-title">Results with Color Swatches</div>
+        <div class="feat-desc">Full macro-nutrient profile — pH, Nitrogen (ppm), Phosphorus (ppm), and Potassium (ppm) — each shown alongside the extracted indicator color swatch for full traceability of every reading.</div>
       </div>
       <div class="feat-card">
         <div class="feat-icon">📋</div>
         <div class="feat-title">Fertilizer Calculator</div>
-        <div class="feat-desc">Input your crop, area, and location. Get structured fertilizer recommendations — type, amount per hectare, and application schedule.</div>
+        <div class="feat-desc">Select a crop and farm area. The calculator recommends Urea (46-0-0), TSP (0-46-0), MOP (0-0-60), and Dolomitic Lime based on your NPK status — with per-hectare amounts for basal and top-dressing.</div>
       </div>
       <div class="feat-card">
         <div class="feat-icon">🎛️</div>
         <div class="feat-title">Custom Color Calibration</div>
-        <div class="feat-desc">Every STK brand has slightly different color strips. Calibrate the reference colors for pH and NPK to match your exact kit — free, saved locally on your device. No two farms need the same setup.</div>
+        <div class="feat-desc">Every STK brand prints slightly different color strips. Calibrate the pH and NPK reference charts to match your exact kit. Settings are saved locally — no two farms need the same setup.</div>
       </div>
       <div class="feat-card">
         <div class="feat-icon">🌾</div>
         <div class="feat-title">Sample Management</div>
-        <div class="feat-desc">Record complete soil sample details — farmer name, address, farm location, date tested, and date submitted. Attach crop targets and thresholds per variety for traceable, professional field documentation.</div>
+        <div class="feat-desc">Record farmer name, address, farm location, and test dates per sample. Analyzed samples can be Reset &amp; Retested (costs 1 credit) to prevent credit bypass. Export soil reports as gallery images anytime.</div>
       </div>
     </div>
   </div>
@@ -876,7 +883,7 @@ Field Area: 1 hectare
   <div class="section-inner">
     <div class="section-tag">Credits & Pricing</div>
     <div class="section-title">Start free. Scale when ready.</div>
-    <p class="section-desc">Every install comes with 10 free analysis credits. Top up anytime with token-based credits — no subscription required.</p>
+    <p class="section-desc">Every install comes with 10 free analysis credits. Each new sample costs 1 credit. Retesting an analyzed sample also costs 1 credit. Top up anytime — no subscription required.</p>
     <div class="pricing-grid">
       <div class="price-card">
         <div class="price-plan">Free</div>
@@ -974,6 +981,109 @@ Field Area: 1 hectare
   </div>
 </section>
 
+<!-- GOOGLE PLAY STORE LISTING -->
+<section id="store-listing" style="background:var(--cream);">
+  <div class="section-inner">
+    <div class="section-tag">Google Play Store Listing</div>
+    <div class="section-title">Store Copy</div>
+    <p class="section-desc" style="margin-bottom:2.5rem;">Ready-to-paste copy for Google Play Console. Character counts shown for each field.</p>
+
+    <div style="display:flex;flex-direction:column;gap:2rem;max-width:760px;">
+
+      <!-- Title -->
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
+          <h3 style="font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;">App Title <span style="font-weight:400;color:var(--muted);">(max 50 chars)</span></h3>
+          <span style="font-size:0.75rem;color:var(--green);font-weight:600;">29 / 50</span>
+        </div>
+        <div style="background:white;border:1.5px solid var(--green);border-radius:12px;padding:1rem 1.25rem;font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--ink);">
+          STK Soil Analyzer – pH &amp; NPK
+        </div>
+      </div>
+
+      <!-- Short description -->
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
+          <h3 style="font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;">Short Description <span style="font-weight:400;color:var(--muted);">(max 80 chars)</span></h3>
+          <span style="font-size:0.75rem;color:var(--green);font-weight:600;">77 / 80</span>
+        </div>
+        <div style="background:white;border:1.5px solid var(--border);border-radius:12px;padding:1rem 1.25rem;font-size:0.9rem;color:var(--ink);line-height:1.5;">
+          Measure soil pH &amp; NPK offline using colorimetric test kits. AI-ready reports.
+        </div>
+      </div>
+
+      <!-- Long description -->
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
+          <h3 style="font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;">Long Description <span style="font-weight:400;color:var(--muted);">(max 4,000 chars)</span></h3>
+          <span style="font-size:0.75rem;color:var(--green);font-weight:600;">≈ 2,400 / 4,000</span>
+        </div>
+        <div style="background:white;border:1.5px solid var(--border);border-radius:12px;padding:1.25rem 1.5rem;font-size:0.85rem;color:var(--muted);line-height:1.85;white-space:pre-wrap;">STK Soil Analyzer is a mobile field tool for agricultural technicians, students, and farmers who need objective soil chemical data — without laboratory equipment.
+
+Use any standard Soil Test Kit (STK). The app guides you through the BSWM-standard colorimetric protocol and analyzes each result using the CIEDE2000 color science algorithm — the same standard used in professional color industries — for readings more consistent than the human eye.
+
+━━━ TWO-STEP pH TEST (BSWM PROTOCOL) ━━━
+
+Step 1: Capture your CPR (Color pH Reagent) indicator color.
+The app automatically evaluates the result:
+
+  • pH ≤ 5.4 → proceed with BCG indicator (acidic soils)
+  • pH ≥ 5.8 → proceed with BTB indicator (alkaline soils)
+  • pH 5.4–5.8 → Inconclusive — reset and retest with a fresh sample
+
+Step 2: Capture the BCG or BTB indicator.
+Final pH is computed and saved to the sample record.
+
+━━━ NPK NUTRIENT ANALYSIS ━━━
+
+• Nitrogen (N) — Diphenylamine reagent
+• Phosphorus (P) — Barton's Reagent
+• Potassium (K) — Sodium Tetraphenylboron reagent
+
+Each nutrient is classified as LOW / MEDIUM / HIGH. The extracted indicator color is shown as a swatch alongside each reading for full traceability.
+
+━━━ AI-READY TECHNICAL SUMMARY ━━━
+
+Once all parameters are captured, the app generates a structured soil report prompt. Copy it to clipboard and paste into Claude, ChatGPT, or Gemini to receive fertilizer recommendations, crop suitability analysis, and pH amendment guidance — no integration required.
+
+━━━ KEY FEATURES ━━━
+
+✓ Two-step pH protocol following BSWM standards
+✓ CIEDE2000 color science for objective, consistent readings
+✓ NPK classification: LOW / MEDIUM / HIGH per nutrient
+✓ Fertility score and recommended crop matching
+✓ Built-in fertilizer calculator (Urea, TSP, MOP, Dolomitic Lime)
+✓ Camera focus circle guide for precise strip alignment
+✓ Gallery picker fallback if camera fails to open
+✓ Color swatch preview alongside every test result
+✓ Soil Analysis Report — save to device gallery as image
+✓ 100% offline — no internet required for testing
+✓ All data stored locally on your device — zero server access
+✓ No ads, no analytics, no account required
+
+━━━ CREDIT SYSTEM ━━━
+
+Every install includes 10 free analysis credits.
+• Creating a new sample costs 1 credit
+• Retesting an already-analyzed sample costs 1 credit
+• Top up anytime with token-based credits — no subscription, no expiry
+
+━━━ CUSTOM CALIBRATION ━━━
+
+Every STK brand prints slightly different color strips. Adjust the pH and NPK reference color charts to match your specific kit — saved locally on your device.
+
+━━━ PRIVACY ━━━
+
+STK Soil Analyzer does not collect, transmit, or share any personal data. Camera is used only for on-device color extraction. No analytics. No ads.
+
+Developed by Harold V. Rita · github.com/phpthinky
+Part of the TAM (Tech-Agri for Mindoro) ecosystem · Sablayan, Occidental Mindoro 🇵🇭</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- CTA BAND -->
 <section class="cta-band">
   <h2>Precision readings.<br>Ready for any AI.</h2>
@@ -990,10 +1100,12 @@ Field Area: 1 hectare
   <div>Soil Test Kit pH,NPK Analyzer — Built by <a href="https://github.com/phpthinky" target="_blank">phpthinky</a></div>
   <div>Part of the <strong style="color:rgba(255,255,255,0.7)">TAM</strong> (Tech-Agri for Mindoro) ecosystem · Sablayan, Occidental Mindoro 🇵🇭</div>
   <div class="footer-links">
+    <a href="#features">Features</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#store-listing">Store Listing</a>
     <a href="#terms">Terms &amp; Conditions</a>
     <a href="#privacy">Privacy Policy</a>
     <a href="https://github.com/phpthinky" target="_blank">GitHub</a>
-    <a href="/cdn-cgi/l/email-protection#b5ddd0d9d9daf5c5ddc5c1dddcdbdecc9bd1d0c3">Contact</a>
   </div>
   <div style="margin-top:1rem;font-size:0.75rem;">© 2026 phpthinky. All rights reserved.</div>
 </footer>
