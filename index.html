@@ -410,13 +410,14 @@
 
     /* ── PRICING ── */
     .pricing { background: white; }
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-top: 3rem;
-      max-width: 700px;
-    }
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-top: 3rem;
+  max-width: 1000px; /* increase this */
+  margin-inline: auto; /* center horizontally */
+}
     .price-card {
       border-radius: 24px;
       padding: 2rem;
